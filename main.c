@@ -27,9 +27,9 @@ typedef enum Opcode {
     JZ, // JZ <reg> <adress> reg == 0
     JNZ, // JNZ <reg> <adress> reg != 0
     JG, // JG <reg> <adress> reg > 0
-    JGE, // reg >= 0
-    JL, // reg < 0
-    JLE, // reg <= 0
+    JGE, // JGE <reg> <adress> reg >= 0
+    JL, // JL <reg> <adress> reg < 0
+    JLE, // JLE <reg> <adress> reg <= 0
 } Opcode;
 
 Program *init_program() {
