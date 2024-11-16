@@ -22,6 +22,14 @@ typedef enum Opcode {
     SUB, // SUB <reg1> <reg2>
     MUL, // MUL <reg1> <reg2>
     DIV, // DIV <reg1> <reg2>
+
+    JMP, // JMP <adress>
+    JZ, // JZ <reg> <adress> reg == 0
+    JNZ, // JNZ <reg> <adress> reg != 0
+    JG, // JG <reg> <adress> reg > 0
+    JGE, // reg >= 0
+    JL, // reg < 0
+    JLE, // reg <= 0
 } Opcode;
 
 Program *init_program() {
