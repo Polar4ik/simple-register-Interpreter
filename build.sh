@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SOURCE="main.c"
-OUTPUT="main.exe"
+OUTPUT="main.out"
 
 clang "$SOURCE" -o "$OUTPUT" -D_CRT_SECURE_NO_WARNINGS
 

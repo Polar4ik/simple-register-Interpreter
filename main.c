@@ -173,9 +173,6 @@ int main(void) {
 
     exec_program(program, text);
 
-    /*for (int i = 0; i < MAX_REGISTERS; i++) {
-        printf("REG %d: %d\n", i, program->registers->list[i]);
-    }*/
-
+    free(program);
     return 0;
 }
