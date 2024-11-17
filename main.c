@@ -47,7 +47,13 @@ int get_reg_num(char *str) {
     int i = 0;
     while (str[i] != '\0') {
         if (isdigit(str[i])) {
-            return atoi(&str[i]);
+            char *num;
+            size_t len = 0;
+            while (isdigit(str[i])) {
+                len++;
+            }
+            strncpy(num, str[i], len);
+            return atoi(&num);
         }
         i++;
     }
