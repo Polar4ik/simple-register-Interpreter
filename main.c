@@ -3,7 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 
-#define MAX_REGISTERS 8
+#define MAX_REGISTERS 16
 
 typedef struct {
     int list[MAX_REGISTERS];
@@ -44,20 +44,12 @@ Program *init_program() {
 }
 
 int get_reg_num(char *str) {
-    int i = 0;
-    while (str[i] != '\0') {
-        if (isdigit(str[i])) {
-            char *num;
-            size_t len = 0;
-            while (isdigit(str[i])) {
-                len++;
-            }
-            strncpy(num, str[i], len);
-            return atoi(&num);
-        }
-        i++;
-    }
-    return 0;
+    int len = strlen(str);
+    char *nums = malloc(len);
+    strcpy(nums, str + 1);
+    int result = atoi(nums);
+    free(nums);
+    return result;
 }
 
 int opcode_arg_num(char *opcode) {
@@ -86,41 +78,40 @@ Opcode get_opcode(char *str) {
 }
 
 void exec_instruct(Program *program, Opcode instruct, char **args) {
-    int reg_num, reg_1, reg_2 = 0;
     switch (instruct) {
-        case PUSH:
-            reg_num = get_reg_num(args[0]);
-            int value = get_reg_num(args[1]);
+        case PUSH: {
+            int reg_num = get_reg_num(args[0]);
+            int value = atoi(args[1]);
             program->registers->list[reg_num] = value;
-            break;
-        case ADD:
-            reg_1 = get_reg_num(args[0]);
-            reg_2 = get_reg_num(args[1]);
+        }; break;
+        case ADD: {
+            int reg_1 = get_reg_num(args[0]);
+            int reg_2 = get_reg_num(args[1]);
             program->registers->list[reg_1] += program->registers->list[reg_2];
-            break;
-        case SUB:
-            reg_1 = get_reg_num(args[0]);
-            reg_2 = get_reg_num(args[1]);
+        }; break;
+        case SUB: {
+            int reg_1 = get_reg_num(args[0]);
+            int reg_2 = get_reg_num(args[1]);
             program->registers->list[reg_1] -= program->registers->list[reg_2];
-            break;
-        case MUL:
-            reg_1 = get_reg_num(args[0]);
-            reg_2 = get_reg_num(args[1]);
+        }; break;
+        case MUL: {
+            int reg_1 = get_reg_num(args[0]);
+            int reg_2 = get_reg_num(args[1]);
             program->registers->list[reg_1] *= program->registers->list[reg_2];
-            break;
-        case DIV:
-            reg_1 = get_reg_num(args[0]);
-            reg_2 = get_reg_num(args[1]);
+        }; break;
+        case DIV: {
+            int reg_1 = get_reg_num(args[0]);
+            int reg_2 = get_reg_num(args[1]);
             if (program->registers->list[reg_1] == 0 || program->registers->list[reg_2] == 0) {
                 printf("Err: Divide zero\n");
                 return;
             }
             program->registers->list[reg_1] /= program->registers->list[reg_2];
-            break;
-        case PRINT:
-            reg_num = get_reg_num(args[0]);
+        }; break;
+        case PRINT: {
+            int reg_num = get_reg_num(args[0]);
             printf("R%d: %d\n", reg_num, program->registers->list[reg_num]);
-            break;
+        }; break;
         default:
             printf("Err Exec Instruct: Unkown Opcode\n");
             exit(1);
@@ -165,19 +156,19 @@ int main(void) {
     char *text = "\
         PUSH R0 5\
         PRINT R0\
-        PRINT R1\
-        PUSH R1 10\
-        PRINT R1\
-        ADD R0 R1\
+        PRINT R12\
+        PUSH R12 10\
+        PRINT R12\
+        ADD R0 R12\
         PRINT R0\
-        PUSH R1 2\
-        MUL R0 R1\
+        PUSH R12 2\
+        MUL R0 R12\
         PRINT R0\
-        PUSH R1 30\
+        PUSH R12 30\
         PRINT R0\
-        PRINT R1\
-        DIV R1 R0\
-        PRINT R1\
+        PRINT R12\
+        DIV R12 R0\
+        PRINT R12\
     ";
 
     exec_program(program, text);
