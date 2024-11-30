@@ -1,6 +1,6 @@
 @echo off
-set SOURCE=main.c
-set OUTPUT=main.exe
+set SOURCE=strs_tests.c
+set OUTPUT=strs_tests.exe
 
 clang %SOURCE% -o %OUTPUT% -D_CRT_SECURE_NO_WARNINGS
 
